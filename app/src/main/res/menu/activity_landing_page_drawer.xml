@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_complain"
+            android:icon="@drawable/ic_menu"
+            android:title="সাধারণ অবহিতকরন" />
+        <item
+            android:id="@+id/nav_search_help"
+            android:icon="@drawable/ic_menu"
+            android:title="সেবা সমূহ তল্লাশি" />
+        <item
+            android:id="@+id/nav_Bill"
+            android:icon="@drawable/ic_menu"
+            android:title="বিল সম্পর্কিত তথ্য" />
+        <item
+            android:id="@+id/nav_Bill_last_stat"
+            android:icon="@drawable/ic_menu"
+            android:title="বিলের সর্বশেষ অবস্থা" />
+
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_menu"
+            android:title="প্রোফাইল" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu"
+            android:title="লগআউট" />
+    </group>
+
+</menu>

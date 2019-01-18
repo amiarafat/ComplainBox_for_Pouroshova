@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "224460477274",
+    "firebase_url": "https://complainbox-a77ec.firebaseio.com",
+    "project_id": "complainbox-a77ec",
+    "storage_bucket": "complainbox-a77ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224460477274:android:740fc5ef9253036c",
+        "android_client_info": {
+          "package_name": "com.arafat.complainbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224460477274-76r7su4k8b1m5songej050hvpt6f3tr6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arafat.complainbox",
+            "certificate_hash": "681de4dab5ef8bb0481c6960d93e4d58f34c7761"
+          }
+        },
+        {
+          "client_id": "224460477274-v1tn19qf4v3krtn5v7f5cath5683r856.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb7j7YxfbqcO18Wk1XZjXcW5gZzVhYsVU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224460477274-v1tn19qf4v3krtn5v7f5cath5683r856.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

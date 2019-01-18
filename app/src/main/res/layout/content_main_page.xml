@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".main_page.MainPageActivity"
+    android:gravity="center"
+    tools:showIn="@layout/activity_main_page">
+
+
+    <LinearLayout
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_margin="5dp">
+
+            <Button
+                android:id="@+id/btnGenInfo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="সাধারন অবহিতকরন"
+                android:background="@color/white"
+                android:padding="4dp"
+                android:drawableLeft="@drawable/left_icon"/>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_margin="5dp">
+
+            <Button
+                android:id="@+id/btnSearchHelp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="সেবা সমূহ তল্লাশি"
+                android:background="@color/white"
+                android:padding="4dp"
+                android:drawableLeft="@drawable/left_icon"/>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_margin="5dp">
+
+            <Button
+                android:id="@+id/btnAboutBill"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="বিল সম্পর্কিত তথ্য"
+                android:background="@color/white"
+                android:padding="4dp"
+                android:drawableLeft="@drawable/left_icon"/>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_margin="5dp">
+
+            <Button
+                android:id="@+id/btnLastInfoBill"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="গ্রাহকের বিলের সর্বশেষ অবস্থা"
+                android:background="@color/white"
+                android:padding="4dp"
+                android:drawableLeft="@drawable/left_icon"/>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</RelativeLayout>

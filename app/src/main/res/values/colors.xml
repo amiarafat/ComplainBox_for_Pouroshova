@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+
+    <!-- Screens background color-->
+    <color name="bg_screen1">#662D91</color>
+    <color name="bg_screen2">#662D91</color>
+    <color name="bg_screen3">#3395ff</color>
+    <color name="bg_screen4">#3395ff</color>
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">@color/pink</color>
+    <color name="dot_dark_screen2">@color/pink</color>
+    <color name="dot_dark_screen3">@color/pink</color>
+    <color name="dot_dark_screen4">@color/pink</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">@color/grey_200</color>
+    <color name="dot_light_screen2">@color/grey_200</color>
+    <color name="dot_light_screen3">@color/grey_200</color>
+    <color name="dot_light_screen4">@color/grey_200</color>
+
+
+    <color name="grey_200">#EEEEEE</color>
+    <color name="grey_500">#9E9E9E</color>
+    <color name="grey_300">#E0E0E0</color>
+    <color name="white">#FFFFFF</color>
+    <color name="green">#00a651</color>
+    <color name="purple">#662D91</color>
+    <color name="pink">#FF4081</color>
+    <color name="red">@android:color/holo_red_light</color>
+    <color name="black">#000000</color>
+
+</resources>

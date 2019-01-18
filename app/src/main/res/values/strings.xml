@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">পৌরসভা</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_start_page">অবহিতকরন</string>
+
+    <string name="fb_app_id">283118269058644</string>
+    <string name="account_kit_client_token">9166a597c0d598e329e0e4fd752b5980</string>
+    <string name="fb_client_secret">9166a597c0d598e329e0e4fd752b5980</string>
+    <string name="ak_login_protocol_scheme">ak9166a597c0d598e329e0e4fd752b5980</string>
+
+
+    <string name="title_activity_main_page">ট্যাক্সপেয়ার টু পৌরসভা</string>
+    <string name="title_activity_register">রেজিস্ট্রেশন</string>
+    <string name="title_activity_complain_box">অবহিতকরন</string>
+    <string name="title_activity_profile_update">প্রোফাইল আপডেট</string>
+    <string name="title_activity_message_log">মেসেজ লগ</string>
+    <string name="title_activity_landing_page">LandingPageActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+</resources>
