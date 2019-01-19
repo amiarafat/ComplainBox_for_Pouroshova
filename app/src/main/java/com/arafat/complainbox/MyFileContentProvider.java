@@ -13,6 +13,7 @@ import java.util.HashMap;
 public class MyFileContentProvider extends ContentProvider {
 
     public static final Uri CONTENT_URI = Uri.parse("content://com.arafat.complainbox/");
+    // এখানে com.xxxx.xxxx.xxxx আমার এপ এর প্যাকেজ নেইম । আপনার এপ এর খেত্রে সেটা আপনাআর এপ এর প্যাকেজ নেম হতে হবে
 
     private static final HashMap<String, String> MIME_TYPES = new HashMap<String, String>();
 
@@ -78,7 +79,7 @@ public class MyFileContentProvider extends ContentProvider {
 
             throws FileNotFoundException {
 
-        File f = new File(getContext().getFilesDir(), "newImage.jpg");
+        File f = new File(getContext().getFilesDir(), "complain_image.jpg");
 
         if (f.exists()) {
 

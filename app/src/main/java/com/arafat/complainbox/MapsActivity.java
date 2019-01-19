@@ -27,6 +27,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -92,7 +93,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
 
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
-    private static final int VIDEO_REQUEST_CODE = 101;
     private static final int REQUEST_CAMERA = 102;
     private static final int MY_PERMISSION_REQUEST_CAMERA = 103;
 
@@ -110,13 +110,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     File v_file;
     private ProgressDialog mProgressDialog;
 
-    EditText etDate;
+    EditText etDate,etDescription;
     Calendar myCalender;
     DatePickerDialog.OnDateSetListener date;
 
     Button btnComplainSubmit;
 
-    private String complainuploadUrl ="http://orapal689.com/piams/griev_img/";
+    private String complainuploadUrl ="http://marvelbd.com/piams/griev_img/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,9 +142,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
 
-                //recordVideo();
-                //chooseMedia();
-                captureImage();
+                if(isPermissionCameraGranted()) {
+                    takePhoto();
+                }
             }
         });
 
@@ -179,11 +179,46 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
 
+                String ComDesc = etDescription.getText().toString();
+                String time = etDate.getText().toString();
+                String comAdd = tvAdddress.getText().toString();
 
-                showProgressDialog();
-                UploadComplain();
-            }
+                if(TextUtils.isEmpty(ComDesc)|| ivImage.getDrawable()==null){
+
+                    if(TextUtils.isEmpty(ComDesc)){
+
+                        etDescription.setError("Please describe the complain!!");
+                    }else if(ivImage.getDrawable()==null){
+                        Toast.makeText(getApplicationContext(),"please capture a photo of the complain",Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    showProgressDialog();
+
+                    uploadComplain(ComDesc,time,comAdd);
+
+                }
+
+               }
         });
+    }
+
+
+
+    private void takePhoto() {
+
+        PackageManager pm = getPackageManager();
+
+        if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+
+            Intent i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+            i.putExtra(MediaStore.EXTRA_OUTPUT, MyFileContentProvider.CONTENT_URI);
+
+            startActivityForResult(i, REQUEST_CAMERA);
+        } else {
+
+            Toast.makeText(getBaseContext(), "Camera is not available", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -236,7 +271,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 mBottomSheetDialog.dismiss();
                 if (isPermissionCameraGranted()) {
-                    captureImage();
+
                 }
             }
         });
@@ -244,7 +279,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         imgViewVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recordVideo();
+
                 mBottomSheetDialog.dismiss();
             }
         });
@@ -254,7 +289,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 Log.v("TAG", "Permission is granted");
-                captureImage();
+
                 return true;
             } else {
                 Log.v("TAG", "Permission is revoked");
@@ -270,47 +305,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    private void captureImage() {
-        PackageManager pm = getPackageManager();
-
-        if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-
-            Intent i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
-            i.putExtra(MediaStore.EXTRA_OUTPUT, MyFileContentProvider.CONTENT_URI);
-
-            startActivityForResult(i, REQUEST_CAMERA);
-        } else {
-
-            Toast.makeText(getBaseContext(), "Camera is not available", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void recordVideo() {
-
-        Intent in =new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        v_file = getFile();
-        Uri uri = Uri.fromFile(v_file);
-
-        in.putExtra(MediaStore.EXTRA_OUTPUT,uri);
-        in.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
-
-        startActivityForResult(in,VIDEO_REQUEST_CODE);
-    }
-
-
-
-    private File getFile() {
-
-        File folder = new File("sdcard/myfolder");
-        if(!folder.exists()){
-            folder.mkdir();
-        }
-
-        File video_file= new File(folder,"complain.mp4");
-        return video_file;
-    }
-
     private void initializeView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("অবহিতকরন");
@@ -321,8 +315,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         tvAdddress = findViewById(R.id.tvAddress);
         btnAddMidea = findViewById(R.id.btnAddMedia);
-        ivImage = findViewById(R.id.ivImage);
+        ivImage = findViewById(R.id.ivComplainImage);
         llMap = findViewById(R.id.llMap);
+
+        etDescription = findViewById(R.id.etDescription);
 
         etDate = findViewById(R.id.etComplainDate);
         etDate.setFocusable(false);
@@ -374,7 +370,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             case MY_PERMISSION_REQUEST_CAMERA:{
                 if (grantResults.length > 0 && grantResults[0] ==   PackageManager.PERMISSION_GRANTED) {
-                    captureImage();
+
+
+                    takePhoto();
                 } else {
                     Log.d(TAG, "REQUEST_CAMERA :: " + "not granted");
                 }
@@ -536,81 +534,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
-        if (requestCode == VIDEO_REQUEST_CODE){
-
-            if (resultCode == RESULT_OK){
-
-                Log.d("result::","Video Captured"+  v_file.getAbsolutePath());
-                btnAddMidea.setText(v_file.getName());
-
-
-            }
-
-        }
         if (requestCode == REQUEST_CAMERA){
 
             if(resultCode == RESULT_OK){
 
 
-
-                File out = new File(getFilesDir(), "newImage.jpg");
+                File out = new File(getFilesDir(), "complain_image.jpg");
                 if (!out.exists()) {
-
-                    Toast.makeText(getBaseContext(),
-
-                            "Error while capturing image", Toast.LENGTH_LONG)
-
-                            .show();
+                    Toast.makeText(getBaseContext(), "Error while capturing image", Toast.LENGTH_LONG).show();
 
                     return;
-
                 }
 
+                Bitmap mBitmap =     BitmapFactory.decodeFile(out.getAbsolutePath());
 
-                Bitmap mBitmap = BitmapFactory.decodeFile(out.getAbsolutePath());
+                ivImage.setImageBitmap(mBitmap);
+                btnAddMidea.setText("complain_image.jpg");
 
-
-                final int destWidth = 400;
-                double originHeight = mBitmap.getHeight();
-                double originWidth = mBitmap.getWidth();
-                Log.d("resulation::", mBitmap.getHeight() + "--" + mBitmap.getWidth());
-
-                if (originWidth > destWidth) {
-
-
-                    double ratio = originWidth / destWidth;
-                    Log.d("resulation::", ratio + "---" + destWidth + "----" + originWidth);
-
-                    int destHeight = (int) (originHeight / ratio);
-                    Log.d("resulation::", ratio + "----");
-                    Bitmap b2 = Bitmap.createScaledBitmap(mBitmap, destWidth, destHeight, false);
-
-                    Log.d("resulation::", destHeight + "---" + destWidth);
-
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    mBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
-                    ivImage.setImageBitmap(b2);
-
-                } else {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    mBitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream);
-                    ivImage.setImageBitmap(mBitmap);
-
-                }
-
-
-
-                /*    File out = new File(getFilesDir(), "newImage.jpg");
-                    if (!out.exists()) {
-                        Toast.makeText(getBaseContext(), "Error while capturing image", Toast.LENGTH_LONG).show();
-
-                        return;
-                    }
-
-                    Bitmap mBitmap =     BitmapFactory.decodeFile(out.getAbsolutePath());
-                    btnAddMidea.setText(out.getName());
-                    ivImage.setImageBitmap(mBitmap);
-*/
             }
         }
 
@@ -651,49 +591,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    private void UploadComplain(){
-
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, complainuploadUrl, new Response.Listener<NetworkResponse>() {
-            @Override
-            public void onResponse(NetworkResponse response) {
-                String resultResponse = new String(response.data);
-                Log.d("caseResponse::", resultResponse);
-                hideProgressDialog();
-
-                new CDialog(MapsActivity.this).createAlert(resultResponse,
-                        CDConstants.SUCCESS,   // Type of dialog
-                        CDConstants.MEDIUM)    //  size of dialog
-                        .setAnimation(CDConstants.SCALE_FROM_BOTTOM_TO_TOP)     //  Animation for enter/exit
-                        .setDuration(2000)   // in milliseconds
-                        .setTextSize(CDConstants.NORMAL_TEXT_SIZE)  // CDConstants.LARGE_TEXT_SIZE, CDConstants.NORMAL_TEXT_SIZE
-                        .show();
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                hideProgressDialog();
-                error.printStackTrace();
-                //showErrorDialog("Server Error. Please try again later");
-            }
-        }) {
-
-            @Override
-            protected Map<String, DataPart> getByteData() {
-                Map<String, DataPart> params = new HashMap<>();
-                params.put("image_tag", new DataPart("new_image.jpg", getFileDataFromDrawable(getBaseContext(), ivImage.getDrawable()), "image/jpeg"));
-                return params;
-            }
-
-
-        };
-
-        multipartRequest.setRetryPolicy(new DefaultRetryPolicy(50000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(multipartRequest);
-    }
-
     public static byte[] getFileDataFromDrawable(Context context, Drawable drawable) {
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -702,4 +599,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+
+    private void uploadComplain(final String comDesc, String time, final String comAdd) {
+
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, complainuploadUrl, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+
+                hideProgressDialog();
+                Log.d("Imres::",new String(response.data));
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id",  "1");
+                params.put("type_id",  "1");
+                params.put("des", comDesc);
+                params.put("lat",  String.valueOf(lat));
+                params.put("lang",  String.valueOf(lng));
+                params.put("rem",  comAdd);
+
+                return params;
+            }
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                params.put("image", new DataPart("complain_image.jpg", getFileDataFromDrawable(getBaseContext(), ivImage.getDrawable()), "image/jpeg"));
+                return params;
+            }
+
+        };
+
+        multipartRequest.setRetryPolicy(new DefaultRetryPolicy(50000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(multipartRequest);
+    }
 }
