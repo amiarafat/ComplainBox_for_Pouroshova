@@ -19,6 +19,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
@@ -84,6 +85,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import id.zelory.compressor.Compressor;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
 
@@ -545,8 +547,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     return;
                 }
+                File comFile = null;
+                try {
+                    comFile= new Compressor(this).compressToFile(out);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-                Bitmap mBitmap =     BitmapFactory.decodeFile(out.getAbsolutePath());
+                Bitmap mBitmap;
+
+                if(comFile!= null){
+                     mBitmap = BitmapFactory.decodeFile(comFile.getAbsolutePath());
+
+                }else {
+                     mBitmap = BitmapFactory.decodeFile(out.getAbsolutePath());
+                }
 
                 ivImage.setImageBitmap(mBitmap);
                 btnAddMidea.setText("complain_image.jpg");
