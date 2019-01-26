@@ -194,9 +194,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Toast.makeText(getApplicationContext(),"please capture a photo of the complain",Toast.LENGTH_LONG).show();
                     }
                 }else {
-                    showProgressDialog();
 
-                    uploadComplain(ComDesc,time,comAdd);
+                    if(!mProgressDialog.isShowing()){
+                        mProgressDialog.setMessage("Uploading Complain...");
+                        mProgressDialog.show();
+
+                    }
+
+                    uploadComplain(ComDesc,comAdd);
 
                 }
 
@@ -615,14 +620,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-    private void uploadComplain(final String comDesc, String time, final String comAdd) {
+    private void uploadComplain(final String comDesc, final String comAdd) {
 
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, complainuploadUrl, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
 
-                hideProgressDialog();
+                if(mProgressDialog.isShowing()){
+                    mProgressDialog.setMessage("Uploading Complain");
+                    mProgressDialog.dismiss();
+                }
                 Log.d("Imres::",new String(response.data));
+
+                new CDialog(MapsActivity.this).createAlert("Complain submitted successfully",
+                        CDConstants.SUCCESS,   // Type of dialog
+                        CDConstants.LARGE)    //  size of dialog
+                        .setAnimation(CDConstants.SCALE_FROM_BOTTOM_TO_TOP)     //  Animation for enter/exit
+                        .setDuration(2000)   // in milliseconds
+                        .setTextSize(CDConstants.LARGE_TEXT_SIZE)  // CDConstants.LARGE_TEXT_SIZE, CDConstants.NORMAL_TEXT_SIZE
+                        .show();
 
             }
         }, new Response.ErrorListener() {

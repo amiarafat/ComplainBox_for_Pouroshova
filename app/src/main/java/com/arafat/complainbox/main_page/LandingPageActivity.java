@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.arafat.complainbox.R;
+import com.arafat.complainbox.auth.StartPageActivity;
 import com.facebook.accountkit.AccountKit;
 
 public class LandingPageActivity extends AppCompatActivity
@@ -104,7 +105,11 @@ public class LandingPageActivity extends AppCompatActivity
             SharedPreferences spUser = getApplicationContext().getSharedPreferences(USER_PREF, MODE_PRIVATE);
             SharedPreferences.Editor editor = spUser.edit();
             editor.clear();
-            editor.clear();
+            editor.commit();
+
+            Intent in =new Intent(LandingPageActivity.this,StartPageActivity.class);
+            startActivity(in);
+            finish();
 
         }
 

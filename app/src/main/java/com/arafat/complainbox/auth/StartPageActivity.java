@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -59,11 +60,10 @@ public class StartPageActivity extends AppCompatActivity {
 
     private final static int REQUEST_CODE =99;
     public static final String GET_PHONE_FROM_FB_ACCOUNT_KIT = "https://graph.accountkit.com/v1.2/me/?access_token=";
-    //public static final String MOBILE_NUMBER_CHECK_API = "http://orapal689.com/piams/phone-number/check?perfix=";
     public static final String MOBILE_NUMBER_CHECK_API = "http://marvelbd.com/piams/check/";
 
 
-    Button btnLogin,btnRegister,btnUpdateProfile;
+    CardView btnLogin;
     private String countryCode="";
     private String nationalNumber="";
     private SharedPreferences spUser;
@@ -72,14 +72,8 @@ public class StartPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_page);
-/*
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-*/
 
         btnLogin = findViewById(R.id.btnStart);
-        btnRegister = findViewById(R.id.btnRegister);
-        btnUpdateProfile = findViewById(R.id.btnUpdateProfile);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,21 +84,6 @@ public class StartPageActivity extends AppCompatActivity {
         });
 
 
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in =new Intent(StartPageActivity.this,RegisterActivity.class);
-                startActivity(in);
-            }
-        });
-
-        btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in =new Intent(StartPageActivity.this,ProfileUpdateActivity.class);
-                startActivity(in);
-            }
-        });
     }
 
     private void startLogin() {
@@ -263,94 +242,7 @@ public class StartPageActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void getNumberCheck(final String countryCode, final String nationalNumber) {/*
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, MOBILE_NUMBER_CHECK_API,
-                new Response.Listener<String>() {
-
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("res::", response);
-
-                        try {
-                            JSONObject jObj =new JSONObject(response);
-
-                            String code =jObj.getString("code");
-
-                            spUser = getApplicationContext().getSharedPreferences(USER_PREF, MODE_PRIVATE);
-                            SharedPreferences.Editor editor = spUser.edit();
-                            editor.putString("user_mobile", countryCode+nationalNumber);
-                            editor.apply();
-
-
-
-                            Log.d("mobilr::",spUser.getString("user_mobile",""));
-
-
-                            Intent in =new Intent(StartPageActivity.this,LandingPageActivity.class);
-                            startActivity(in);
-                            finish();
-
-                            *//*if(code .equals("901")){
-
-                                Intent intent =new Intent(StartPageActivity.this,RegisterActivity.class);
-                                startActivity(intent);
-                                finish();
-
-                            }else if(code.equals("900")){
-
-                                try {
-
-                                    if(spUser.contains("name") && !TextUtils.isEmpty(spUser.getString("name",""))){
-
-                                        Intent intent1 =new Intent(StartPageActivity.this,MainPageActivity.class);
-                                        startActivity(intent1);
-                                        finish();
-                                    }else {
-                                        Intent int =new Intent(StartPageActivity.this,RegisterActivity.class);
-                                        startActivity(in);
-                                        finish();
-                                    }
-
-
-                                }catch (Exception e){
-
-                                    Intent in =new Intent(StartPageActivity.this,RegisterActivity.class);
-                                    startActivity(in);
-                                    finish();
-                                }
-
-                            }*//*
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        Log.d("volleyError::", error.toString());
-                    }
-                }){
-            @Override
-            public Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("perfix", countryCode);
-                params.put("mobile_number", nationalNumber);
-
-
-                return params;
-            }
-
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);*/
-
-        Log.d("enter::",nationalNumber);
+    private void getNumberCheck(final String countryCode, final String nationalNumber) {
 
         StringRequest request = new StringRequest(Request.Method.POST, MOBILE_NUMBER_CHECK_API, new Response.Listener<String>() {
 
