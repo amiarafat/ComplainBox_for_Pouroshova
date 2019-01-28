@@ -6,7 +6,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-tools:context=".MainActivity"
+tools:context="com.arafat.Pouroshova.MainActivity"
 android:orientation="vertical"
 tools:showIn="@layout/activity_main">
 
@@ -111,7 +111,7 @@ tools:showIn="@layout/activity_main">
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
                         android:layout_height="124dp"
-                        tools:context=".MapsActivity" />
+                        tools:context="com.arafat.Pouroshova.MapsActivity" />
 
 
                 </LinearLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".main_page.ComplainBoxActivity"
+    tools:context="com.arafat.Pouroshova.main_page.ComplainBoxActivity"
     android:background="@color/grey_200"
     tools:showIn="@layout/activity_complain_box">
 

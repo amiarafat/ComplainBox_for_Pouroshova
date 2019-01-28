@@ -1,34 +1,21 @@
-package com.arafat.complainbox.auth;
+package com.arafat.Pouroshova.auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.arafat.complainbox.MapsActivity;
 import com.arafat.complainbox.R;
-import com.arafat.complainbox.main_page.LandingPageActivity;
-import com.arafat.complainbox.main_page.MainPageActivity;
+import com.arafat.Pouroshova.main_page.LandingPageActivity;
 import com.facebook.accountkit.Account;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.accountkit.AccountKitCallback;
@@ -37,7 +24,6 @@ import com.facebook.accountkit.AccountKitLoginResult;
 import com.facebook.accountkit.PhoneNumber;
 import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
-import com.facebook.accountkit.ui.CountryCodeSpinner;
 import com.facebook.accountkit.ui.LoginType;
 
 import org.json.JSONException;
@@ -45,7 +31,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
@@ -256,10 +241,13 @@ public class StartPageActivity extends AppCompatActivity {
                     JSONObject jObj =new JSONObject(response);
 
                     String code =jObj.getString("code");
+                    String uId =jObj.getString("uid");
+                    Log.d("uid::",uId);
 
                     spUser = getApplicationContext().getSharedPreferences(USER_PREF, MODE_PRIVATE);
                     SharedPreferences.Editor editor = spUser.edit();
                     editor.putString("user_mobile", countryCode+nationalNumber);
+                    editor.putString("user_id", uId);
                     editor.apply();
 
 

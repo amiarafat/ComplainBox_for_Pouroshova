@@ -1,10 +1,8 @@
-package com.arafat.complainbox.auth;
+package com.arafat.Pouroshova.auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -12,9 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.arafat.Pouroshova.main_page.LandingPageActivity;
 import com.arafat.complainbox.R;
-import com.arafat.complainbox.main_page.LandingPageActivity;
-import com.arafat.complainbox.main_page.MainPageActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -65,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
         editor.putString("user_location", location);
         editor.apply();
 
-        Intent in =new Intent(RegisterActivity.this,LandingPageActivity.class);
+        Intent in =new Intent(RegisterActivity.this, LandingPageActivity.class);
         startActivity(in);
     }
 

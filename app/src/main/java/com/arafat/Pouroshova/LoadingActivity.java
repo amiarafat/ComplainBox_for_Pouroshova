@@ -1,4 +1,4 @@
-package com.arafat.complainbox;
+package com.arafat.Pouroshova;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.arafat.complainbox.auth.StartPageActivity;
-import com.arafat.complainbox.main_page.LandingPageActivity;
-import com.arafat.complainbox.main_page.MainPageActivity;
+import com.arafat.Pouroshova.auth.StartPageActivity;
+import com.arafat.Pouroshova.main_page.LandingPageActivity;
+import com.arafat.complainbox.R;
 
 public class LoadingActivity extends AppCompatActivity {
 
@@ -32,16 +32,16 @@ public class LoadingActivity extends AppCompatActivity {
             public void run() {
 
                 sp  = getApplicationContext().getSharedPreferences(USER_PREF, MODE_PRIVATE);
-                Log.d("mobilr::",sp.getString("user_mobile",""));
+                Log.d("id::",sp.getString("user_id",""));
 
 
-                if(sp.contains("user_mobile") && !TextUtils.isEmpty(sp.getString("user_mobile",""))){
+                if(sp.contains("user_id") && !TextUtils.isEmpty(sp.getString("user_id",""))){
 
-                    Intent in =new Intent(LoadingActivity.this,LandingPageActivity.class);
+                    Intent in =new Intent(LoadingActivity.this, LandingPageActivity.class);
                     startActivity(in);
                     finish();
                 }else {
-                    Intent in =new Intent(LoadingActivity.this,StartPageActivity.class);
+                    Intent in =new Intent(LoadingActivity.this, StartPageActivity.class);
                     startActivity(in);
                     finish();
                 }

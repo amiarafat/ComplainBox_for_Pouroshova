@@ -40,7 +40,7 @@
             android:layout_marginBottom="24dp">
 
 
-            <com.arafat.complainbox.RoundedImageView
+            <com.arafat.Pouroshova.RoundedImageView
                 android:id="@+id/imgViewImage"
                 android:layout_width="78dp"
                 android:layout_height="78dp"
@@ -65,7 +65,7 @@
             android:layout_marginBottom="24dp">
 
 
-            <com.arafat.complainbox.RoundedImageView
+            <com.arafat.Pouroshova.RoundedImageView
                 android:id="@+id/imageViewVideo"
                 android:layout_width="78dp"
                 android:layout_height="78dp"

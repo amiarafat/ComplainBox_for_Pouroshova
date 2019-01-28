@@ -4,34 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".auth.StartPageActivity"
+    android:background="@color/grey_300"
     android:gravity="center"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.arafat.Pouroshova.auth.StartPageActivity"
     tools:showIn="@layout/activity_start_page">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
-        android:padding="12dp"
-        android:gravity="center">
+        android:padding="12dp">
 
 
         <android.support.v7.widget.CardView
             android:id="@+id/btnStart"
             android:layout_width="264dp"
             android:layout_height="112dp"
-            app:cardElevation="12dp"
-            app:cardCornerRadius="12dp">
+            app:cardCornerRadius="12dp"
+            app:cardElevation="12dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
-                android:text="লগইন করুন"
                 android:gravity="center"
+                android:text="লগইন করুন"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </android.support.v7.widget.CardView>
 

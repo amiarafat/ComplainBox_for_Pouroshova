@@ -18,9 +18,10 @@
                 android:id="@+id/tvId"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_weight="1"
-                android:text="১"/>
+                android:gravity="center"
+                android:text="১"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
             <TextView
                 android:id="@+id/tvDate"
@@ -28,22 +29,25 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_weight="1"
+                android:textSize="10dp"
                 android:text="০২/১২/২০১৮"/>
 
             <TextView
                 android:id="@+id/tvSub"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_weight="1"
-                android:text="রাস্তা"/>
+                android:gravity="center"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:text="রাস্তা" />
 
-            <Button
+            <TextView
                 android:id="@+id/btnShow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_weight="1"
+                android:background="@color/place_autocomplete_search_hint"
                 android:text="দেখুন"/>
 
         </LinearLayout>

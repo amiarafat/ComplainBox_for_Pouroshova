@@ -1,13 +1,13 @@
-package com.arafat.complainbox;
+package com.arafat.Pouroshova;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,11 +17,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -41,18 +38,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
-import com.example.circulardialog.CDialog;
-import com.example.circulardialog.extras.CDConstants;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.arafat.complainbox.R;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -62,8 +53,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -71,9 +60,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -98,6 +84,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int REQUEST_CAMERA = 102;
     private static final int MY_PERMISSION_REQUEST_CAMERA = 103;
 
+    private static final String USER_PREF = "USER_INFO";
+    SharedPreferences sp;
+
     LocationManager locationManager;
     boolean GpsStatus = false;
 
@@ -119,6 +108,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Button btnComplainSubmit;
 
     private String complainuploadUrl ="http://marvelbd.com/piams/griev_img/";
+    private String UID = "";
+    private String TYPE_ID = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +120,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map2);
         mapFragment.getMapAsync(this);
+
+        if(getIntent()!=null){
+            TYPE_ID = getIntent().getStringExtra("_type_id");
+        }
 
         initializeView();
 
@@ -317,6 +312,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         toolbar.setTitle("অবহিতকরন");
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 
+        sp  = getApplicationContext().getSharedPreferences(USER_PREF, MODE_PRIVATE);
+        UID = sp.getString("user_id","");
 
         myCalender = Calendar.getInstance();
 
@@ -622,6 +619,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void uploadComplain(final String comDesc, final String comAdd) {
 
+        Log.d("info::",UID+"--"+TYPE_ID);
+
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, complainuploadUrl, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
@@ -632,13 +631,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 Log.d("Imres::",new String(response.data));
 
-                new CDialog(MapsActivity.this).createAlert("Complain submitted successfully",
+                /*new CDialog(MapsActivity.this).createAlert("Complain submitted successfully",
                         CDConstants.SUCCESS,   // Type of dialog
                         CDConstants.LARGE)    //  size of dialog
                         .setAnimation(CDConstants.SCALE_FROM_BOTTOM_TO_TOP)     //  Animation for enter/exit
                         .setDuration(2000)   // in milliseconds
                         .setTextSize(CDConstants.LARGE_TEXT_SIZE)  // CDConstants.LARGE_TEXT_SIZE, CDConstants.NORMAL_TEXT_SIZE
-                        .show();
+                        .show();*/
+
+                Toast.makeText(getApplicationContext(),"Complain submitted successfully",Toast.LENGTH_LONG).show();
+
+                finish();
 
             }
         }, new Response.ErrorListener() {
@@ -650,9 +653,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             protected Map<String, String> getParams() {
+
                 Map<String, String> params = new HashMap<>();
-                params.put("user_id",  "1");
-                params.put("type_id",  "1");
+                params.put("user_id",  UID);
+                params.put("type_id",  TYPE_ID);
                 params.put("des", comDesc);
                 params.put("lat",  String.valueOf(lat));
                 params.put("lang",  String.valueOf(lng));
@@ -671,7 +675,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         };
 
         multipartRequest.setRetryPolicy(new DefaultRetryPolicy(50000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(multipartRequest);
+        /*RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(multipartRequest);*/
+        multipartRequest.setShouldCache(false);
+        ComplainApp.getComplain().addToRequestQueue(multipartRequest,TAG);
     }
 }
